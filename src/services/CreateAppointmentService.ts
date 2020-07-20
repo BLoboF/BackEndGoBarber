@@ -1,15 +1,16 @@
+/* eslint-disable camelcase */
 import { startOfHour } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 import Appointment from '../models/appointments';
 import AppointmentsRepository from '../repository/appointmentsRepository';
 
 interface Resquest {
-  provider: string;
+  provider_id: string;
   date: Date;
 }
 
 class createAppointmentService {
-  public async execute({ provider, date }: Resquest): Promise<Appointment> {
+  public async execute({ provider_id, date }: Resquest): Promise<Appointment> {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
     const appointmentDate = startOfHour(date);
 
@@ -22,7 +23,7 @@ class createAppointmentService {
     }
 
     const appointment = appointmentsRepository.create({
-      provider,
+      provider_id,
       date: appointmentDate,
     });
 
