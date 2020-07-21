@@ -3,6 +3,8 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '../config/auth';
 
+import AppError from '../errors/AppError';
+
 import User from '../models/users';
 
 interface Request {
@@ -21,13 +23,13 @@ class AuthenticateUserService {
     const user = await usersRepository.findOne({ where: { email } });
 
     if (!user) {
-      throw new Error('E-mail or Password incorret.');
+      throw new AppError('E-mail or Password incorret.', 401);
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error('E-mail or Password incorret.');
+      throw new AppError('E-mail or Password incorret.', 401);
     }
 
     const { secret, expiresIn } = authConfig.jwt;
