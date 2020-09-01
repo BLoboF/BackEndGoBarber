@@ -13,6 +13,7 @@ interface Request {
 }
 
 interface Response {
+  user: User;
   token: string;
 }
 
@@ -39,7 +40,7 @@ class AuthenticateUserService {
       expiresIn,
     });
 
-    return { token };
+    return { user, token };
   }
 }
 
